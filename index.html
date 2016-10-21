@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="jquery.min.js"></script>
+<link rel="stylesheet" href="styles.css">
+<script>
+
+var map  = [
+  [1,1,1,1,1,1,1,1,1,1],
+  [2,1,1,1,1,1,1,1,1,1],
+  [3,1,1,1,1,1,1,1,1,1],
+  [4,1,1,1,1,1,1,1,1,1],
+  [5,1,1,1,1,1,1,1,1,1],
+  [6,1,1,1,1,1,1,1,1,1],
+  [7,1,1,1,1,1,1,1,1,1],
+  [8,1,1,1,1,1,1,1,1,1],
+  [9,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,1,1,1,1,1,1]
+];
+
+$(document).on('click', '.gamecell' , function() {
+	$("#"+$(this).text()).html("<div>0</div>");
+});
+
+$(document).ready(function(){
+
+    $("#gameboard").dblclick(function(){
+    	var content = "<table>";
+
+        for (i = 0; i < 10; i++) {
+        	content = content + "<tr>";
+        	for(j = 0; j < 10; j++){
+        		content = content + "<td><div class = 'gamecell' id = '"+(i*10 + j)+"'>"+map[i][j]+"</div></td>"
+        	}	
+        	content = content + "</tr>";
+        }
+
+        content = content + "</table>";
+
+        $(this).html(content);
+    });
+});
+
+</script>
+</head>
+<body>
+
+<div id = 'gameboard'>
+		start
+</div>
+
+</body>
+</html>
+
