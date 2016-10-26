@@ -5,21 +5,53 @@
 <link rel="stylesheet" href="styles.css">
 <script>
 
+var n = 4;
+
 var map  = [
-  [1,1,1,1,1,1,1,1,1,1],
-  [2,1,1,1,1,1,1,1,1,1],
-  [3,1,1,1,1,1,1,1,1,1],
-  [4,1,1,1,1,1,1,1,1,1],
-  [5,1,1,1,1,1,1,1,1,1],
-  [6,1,1,1,1,1,1,1,1,1],
-  [7,1,1,1,1,1,1,1,1,1],
-  [8,1,1,1,1,1,1,1,1,1],
-  [9,1,1,1,1,1,1,1,1,1],
-  [1,1,1,1,1,1,1,1,1,1]
+  ['*','1','#','#'],
+  ['1','1','#','#'],
+  ['#','#','1','1'],
+  ['#','#','1','*'],
 ];
 
+function openCell(r,c) {
+  console.log(r + ' ' + c);
+  if(r < 0 || c < 0 || r >= n || c >= n) return;
+  if(map[r][c] == '*') return;
+  if(map[r][c] == '$') return;
+  if(map[r][c] == '#'){
+    map[r][c] = '$';
+    $('#'+r+'_'+c).html(' ');
+    openCell(r + 1,c);
+    openCell(r,c  + 1);
+    openCell(r-1,c);
+    openCell(r,c-1);
+  }
+  else{
+    $('#'+r+'_'+c).html(map[r][c]);
+  }
+}
+
 $(document).on('click', '.gamecell' , function() {
-	$("#"+$(this).text()).html("<div>0</div>");
+  
+  var id = $(this).prop("id");
+  var args = id.split('_');
+  var r = args[0];
+  var c = args[1];
+
+  
+  if(map[r][c] == '*'){
+    for (i = 0; i < n; i++) {
+          for(j = 0; j < n; j++){
+            $('#'+i+'_'+j).html(map[i][j]);  
+          }
+    }
+  }else if(map[r][c] == '#'){
+    openCell(parseInt(r),parseInt(c));
+  }else{
+    $(this).html(map[r][c]);  
+  }
+
 });
 
 $(document).ready(function(){
@@ -27,10 +59,10 @@ $(document).ready(function(){
     $("#gameboard").dblclick(function(){
     	var content = "<table>";
 
-        for (i = 0; i < 10; i++) {
+        for (i = 0; i < n; i++) {
         	content = content + "<tr>";
-        	for(j = 0; j < 10; j++){
-        		content = content + "<td><div class = 'gamecell' id = '"+(i*10 + j)+"'>"+map[i][j]+"</div></td>"
+        	for(j = 0; j < n; j++){
+        		content = content + "<td><div class = 'gamecell' id = '"+(i +'_' + j)+"'>"+'+'+"</div></td>"
         	}	
         	content = content + "</tr>";
         }
